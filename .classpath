@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="src" path="src/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/boot.jar"/>
+	<classpathentry kind="lib" path="lib/com.zutubi.events.jar"/>
+	<classpathentry kind="lib" path="lib/com.zutubi.i18n.jar"/>
+	<classpathentry kind="lib" path="lib/com.zutubi.pulse.core.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://doc.zutubi.com/pulse/2.2/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/com.zutubi.tove.annotations.jar"/>
+	<classpathentry kind="lib" path="lib/com.zutubi.tove.jar"/>
+	<classpathentry kind="lib" path="lib/com.zutubi.util.jar"/>
+	<classpathentry kind="lib" path="lib/com.zutubi.validation.annotations.jar"/>
+	<classpathentry kind="lib" path="lib/com.zutubi.validation.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.common_3.3.0.v20070426.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.registry_3.3.0.v20070522.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.osgi_3.3.0.v20070530.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
