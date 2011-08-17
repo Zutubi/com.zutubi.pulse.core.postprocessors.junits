@@ -1,4 +1,5 @@
 <project name="JUnit XML report post-processor plugin" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
+    <property name="build.sysclasspath" value="ignore"/>
     <property name="src.dir" value="src"/>
     <property name="java.src.dir" value="${src.dir}/java"/>
     <property name="resources.dir" value="${src.dir}/resources"/>
