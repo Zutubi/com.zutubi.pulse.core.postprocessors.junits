@@ -1,4 +1,4 @@
-package com.zutubi.pulse.core.postprocessors.junit;
+package com.zutubi.pulse.core.postprocessors.junits;
 
 import com.zutubi.pulse.core.postprocessors.api.*;
 

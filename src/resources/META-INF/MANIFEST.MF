@@ -1,6 +1,6 @@
-Bundle-Name: JUnit XML report post-processor
-Bundle-SymbolicName: com.zutubi.pulse.core.postprocessor.junit; singleton:=true
-Bundle-Description: Support for parsing test results from JUnit XML output.
+Bundle-Name: JUnit XML report post-processor (sample)
+Bundle-SymbolicName: com.zutubi.pulse.core.postprocessor.junits; singleton:=true
+Bundle-Description: Sample plugin with support for parsing test results from JUnit XML output.
 Bundle-Vendor: Zutubi
 Bundle-Version: 2.4.0
 Require-Bundle: com.zutubi.pulse.core; bundle-version="[2.4.0,2.5.0)"

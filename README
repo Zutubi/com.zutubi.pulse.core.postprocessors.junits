@@ -5,7 +5,7 @@ Introduction
 This package contains a sample post-processor plugin for Pulse 2.4.  The
 plugin parses JUnit XML reports to find test results.  The code is
 extracted from the actual Pulse JUnit plugin, tweaked so that it does
-not conflict.
+not conflict and simplified.
 
 ========================================================================
 Contents
@@ -44,7 +44,7 @@ $ ant package
 This compiles the plugin, copies the resources and packages it all up
 in:
 
-build/com.zutubi.pulse.core.postprocessors.junit.jar
+build/com.zutubi.pulse.core.postprocessors.junits.jar
 
 a complete Pulse 2.4 plugin.  The plugin can be installed via the
 Pulse administration UI (see below).

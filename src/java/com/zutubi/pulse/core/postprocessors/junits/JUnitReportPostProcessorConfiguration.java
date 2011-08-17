@@ -1,4 +1,4 @@
-package com.zutubi.pulse.core.postprocessors.junit;
+package com.zutubi.pulse.core.postprocessors.junits;
 
 import com.zutubi.pulse.core.postprocessors.api.XMLTestReportPostProcessorConfigurationSupport;
 import com.zutubi.tove.annotations.Form;
@@ -7,7 +7,7 @@ import com.zutubi.tove.annotations.Wizard;
 import com.zutubi.validation.annotations.Required;
 
 /**
- * Configuration for instances of {@link com.zutubi.pulse.core.postprocessors.junit.JUnitReportPostProcessor}.
+ * Configuration for instances of {@link com.zutubi.pulse.core.postprocessors.junits.JUnitReportPostProcessor}.
  */
 @SymbolicName("zutubi.junitReportPostProcessorPluginConfig")
 @Form(fieldOrder = {"name", "failOnFailure", "suite", "resolveConflicts", "expectedFailureFile", "suiteElement", "caseElement", "errorElement", "failureElement", "skippedElement", "classAttribute", "messageAttribute", "nameAttribute", "packageAttribute", "timeAttribute"})
