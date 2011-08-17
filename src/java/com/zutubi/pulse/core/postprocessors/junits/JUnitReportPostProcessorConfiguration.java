@@ -8,7 +8,7 @@ import com.zutubi.tove.annotations.SymbolicName;
  * Configuration for instances of {@link com.zutubi.pulse.core.postprocessors.junits.JUnitReportPostProcessor}.
  */
 @SymbolicName("zutubi.junitsReportPostProcessorConfig")
-@Form(fieldOrder = {"name", "failOnFailure", "suite", "resolveConflicts", "expectedFailureFile", "suiteElement", "caseElement", "errorElement", "failureElement", "skippedElement", "classAttribute", "messageAttribute", "nameAttribute", "packageAttribute", "timeAttribute"})
+@Form(fieldOrder = {"name", "failOnFailure", "suite", "resolveConflicts", "expectedFailureFile"})
 public class JUnitReportPostProcessorConfiguration extends XMLTestReportPostProcessorConfigurationSupport
 {
     public JUnitReportPostProcessorConfiguration()
