@@ -13,7 +13,18 @@ import static com.zutubi.pulse.core.util.api.XMLStreamUtils.*;
  */
 public class JUnitReportPostProcessor extends StAXTestReportPostProcessorSupport
 {
-    private static final String ELEMENT_SUITES = "testsuites";
+    private static final String ELEMENT_SUITES  = "testsuites";
+    private static final String ELEMENT_SUITE   = "testsuite";
+    private static final String ELEMENT_CASE    = "testcase";
+    private static final String ELEMENT_ERROR   = "error";
+    private static final String ELEMENT_FAILURE = "failure";
+    private static final String ELEMENT_SKIPPED = "skipped";
+
+    private static final String ATTRIBUTE_CLASS   = "classname";
+    private static final String ATTRIBUTE_MESSAGE = "message";
+    private static final String ATTRIBUTE_NAME    = "name";
+    private static final String ATTRIBUTE_PACKAGE = "package";
+    private static final String ATTRIBUTE_TIME    = "time";
 
     public JUnitReportPostProcessor(JUnitReportPostProcessorConfiguration config)
     {
@@ -28,9 +39,9 @@ public class JUnitReportPostProcessor extends StAXTestReportPostProcessorSupport
 
     protected void process(XMLStreamReader reader, TestSuiteResult tests) throws XMLStreamException
     {
-        while (nextSiblingTag(reader, getConfig().getSuiteElement(), ELEMENT_SUITES))
+        while (nextSiblingTag(reader, ELEMENT_SUITE, ELEMENT_SUITES))
         {
-            if (isElement(getConfig().getSuiteElement(), reader))
+            if (isElement(ELEMENT_SUITE, reader))
             {
                 processSuite(reader, tests);
             }
@@ -46,7 +57,7 @@ public class JUnitReportPostProcessor extends StAXTestReportPostProcessorSupport
         expectStartTag(ELEMENT_SUITES, reader);
         nextTagOrEnd(reader);
 
-        while (nextSiblingTag(reader, getConfig().getSuiteElement()))
+        while (nextSiblingTag(reader, ELEMENT_SUITE))
         {
             processSuite(reader, tests);
         }
@@ -56,7 +67,7 @@ public class JUnitReportPostProcessor extends StAXTestReportPostProcessorSupport
 
     private void processSuite(XMLStreamReader reader, TestSuiteResult tests) throws XMLStreamException
     {
-        expectStartTag(getConfig().getSuiteElement(), reader);
+        expectStartTag(ELEMENT_SUITE, reader);
         Map<String, String> attributes = getAttributes(reader);
 
         String name = getTestSuiteName(attributes);
@@ -72,32 +83,32 @@ public class JUnitReportPostProcessor extends StAXTestReportPostProcessorSupport
 
         nextTagOrEnd(reader);
 
-        while (nextSiblingTag(reader, getConfig().getSuiteElement(), getConfig().getCaseElement()))
+        while (nextSiblingTag(reader, ELEMENT_SUITE, ELEMENT_CASE))
         {
-            if (isElement(getConfig().getSuiteElement(), reader))
+            if (isElement(ELEMENT_SUITE, reader))
             {
                 processSuite(reader, suite);
             }
-            else if (isElement(getConfig().getCaseElement(), reader))
+            else if (isElement(ELEMENT_CASE, reader))
             {
                 processCase(reader, suite);
             }
         }
 
-        expectEndTag(getConfig().getSuiteElement(), reader);
+        expectEndTag(ELEMENT_SUITE, reader);
         nextTagOrEnd(reader);
     }
 
     protected String getTestSuiteName(Map<String, String> attributes)
     {
         String name = "";
-        String attr = attributes.get(getConfig().getPackageAttribute());
+        String attr = attributes.get(ATTRIBUTE_PACKAGE);
         if (attr != null)
         {
             name += attr + '.';
         }
 
-        attr = attributes.get(getConfig().getNameAttribute());
+        attr = attributes.get(ATTRIBUTE_NAME);
         if (attr != null)
         {
             name += attr;
@@ -107,7 +118,7 @@ public class JUnitReportPostProcessor extends StAXTestReportPostProcessorSupport
 
     private void processCase(XMLStreamReader reader, TestSuiteResult suite) throws XMLStreamException
     {
-        expectStartTag(getConfig().getCaseElement(), reader);
+        expectStartTag(ELEMENT_CASE, reader);
 
         Map<String, String> attributes = getAttributes(reader);
         String name = getTestCaseName(attributes);
@@ -117,7 +128,7 @@ public class JUnitReportPostProcessor extends StAXTestReportPostProcessorSupport
             return;
         }
 
-        String className = attributes.get(getConfig().getClassAttribute());
+        String className = attributes.get(ATTRIBUTE_CLASS);
         if (className != null && !suite.getName().equals(className))
         {
             name = className + "." + name;
@@ -128,22 +139,22 @@ public class JUnitReportPostProcessor extends StAXTestReportPostProcessorSupport
         suite.addCase(caseResult);
         nextTagOrEnd(reader);
 
-        if (nextSiblingTag(reader, getConfig().getErrorElement(), getConfig().getFailureElement(), getConfig().getSkippedElement()))
+        if (nextSiblingTag(reader, ELEMENT_ERROR, ELEMENT_FAILURE, ELEMENT_SKIPPED))
         {
             String tagName = reader.getLocalName();
-            if (tagName.equals(getConfig().getErrorElement()))
+            if (tagName.equals(ELEMENT_ERROR))
             {
                 caseResult.setStatus(TestStatus.ERROR);
                 caseResult.setMessage(getMessage(reader));
                 nextTagOrEnd(reader);
             }
-            else if (tagName.equals(getConfig().getFailureElement()))
+            else if (tagName.equals(ELEMENT_FAILURE))
             {
                 caseResult.setStatus(TestStatus.FAILURE);
                 caseResult.setMessage(getMessage(reader));
                 nextTagOrEnd(reader);
             }
-            else if (tagName.equals(getConfig().getSkippedElement()))
+            else if (tagName.equals(ELEMENT_SKIPPED))
             {
                 caseResult.setStatus(TestStatus.SKIPPED);
                 nextElement(reader);
@@ -156,13 +167,13 @@ public class JUnitReportPostProcessor extends StAXTestReportPostProcessorSupport
             nextElement(reader);
         }
 
-        expectEndTag(getConfig().getCaseElement(), reader);
+        expectEndTag(ELEMENT_CASE, reader);
         nextTagOrEnd(reader);
     }
 
     protected String getTestCaseName(Map<String, String> attributes)
     {
-        return attributes.get(getConfig().getNameAttribute());
+        return attributes.get(ATTRIBUTE_NAME);
     }
 
     protected TestStatus getTestCaseImmediateStatus(Map<String, String> attributes)
@@ -173,7 +184,7 @@ public class JUnitReportPostProcessor extends StAXTestReportPostProcessorSupport
     private String getMessage(XMLStreamReader reader) throws XMLStreamException
     {
         Map<String, String> attributes = getAttributes(reader);
-        String message = attributes.get(getConfig().getMessageAttribute());
+        String message = attributes.get(ATTRIBUTE_MESSAGE);
 
         String elementText = reader.getElementText();
         if (elementText != null && elementText.length() > 0)
@@ -187,7 +198,7 @@ public class JUnitReportPostProcessor extends StAXTestReportPostProcessorSupport
     private long getDuration(Map<String, String> attributes)
     {
         long duration = TestResult.DURATION_UNKNOWN;
-        String attr = attributes.get(getConfig().getTimeAttribute());
+        String attr = attributes.get(ATTRIBUTE_TIME);
         if (attr != null)
         {
             try
