@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="src" path="src/test"/>
 	<classpathentry kind="src" path="src/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/boot.jar"/>
@@ -19,5 +20,8 @@
 	<classpathentry kind="lib" path="lib/org.eclipse.equinox.common_3.3.0.v20070426.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.equinox.registry_3.3.0.v20070522.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.osgi_3.3.0.v20070530.jar"/>
+	<classpathentry kind="lib" path="lib/com.zutubi.util-test.jar"/>
+	<classpathentry kind="lib" path="lib/com.zutubi.pulse.core-test.jar"/>
+	<classpathentry kind="lib" path="lib/org.junit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
