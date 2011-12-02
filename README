@@ -25,6 +25,8 @@ src/
   java/            - Java source code for the plugin
   resources/       - extra source files used to define plugin
                      information
+  test/            - a small set of tests for the plugin, illustrating
+                     how to use built-in support for JUnit test cases
 
 ========================================================================
 Building
@@ -124,6 +126,9 @@ Defines the configuration for the plugin: i.e. what the user sees in
 the Pulse administration UI.  Note that there is a .properties file
 alongside this class that defines strings shown in the Pulse UI.
 
+JUnitReportPostProcessorTest.java:
+Some simple test cases for the post-processor.
+
 ------------------------------------------------------------------------
 Other Files
 ------------------------------------------------------------------------
@@ -149,7 +154,7 @@ Contains the actual plugin source code.
 Further Help
 ========================================================================
 
-For further assistance with plugin development, don't hesistate to
+For further assistance with plugin development, don't hesitate to
 contact us at:
 
 support@zutubi.com

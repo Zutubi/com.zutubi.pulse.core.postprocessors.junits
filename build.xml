@@ -1,19 +1,26 @@
-<project name="Sample JUnit XML report post-processor plugin" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="Sample JUnit XML report post-processor plugin" default="test" xmlns:ivy="antlib:org.apache.ivy.ant">
     <property name="build.sysclasspath" value="ignore"/>
     <property name="src.dir" value="src"/>
     <property name="java.src.dir" value="${src.dir}/java"/>
     <property name="resources.dir" value="${src.dir}/resources"/>
+    <property name="test.src.dir" value="${src.dir}/test"/>
     <property name="manifest" value="${resources.dir}/META-INF/MANIFEST.MF"/>
     <property name="build.dir" value="build"/>
     <property name="lib.dir" value="lib"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
-    
+	<property name="test.classes.dir" value="${build.dir}/test.classes"/>
+	<property name="report.dir" value="${build.dir}/reports"/>
+	
     <path id="lib.path.id">
-        <fileset dir="${lib.dir}" />
+        <fileset dir="${lib.dir}"/>
 	</path>
     <path id="run.path.id">
-        <path refid="lib.path.id" />
+        <path refid="lib.path.id"/>
         <path location="${classes.dir}"/>
+    </path>
+    <path id="test.path.id">
+        <path refid="run.path.id"/>
+        <path location="${test.classes.dir}"/>
     </path>
 
     <path id="ivy.task.path">
@@ -22,7 +29,7 @@
         </fileset>
     </path>
     <taskdef resource="org/apache/ivy/ant/antlib.xml"  uri="antlib:org.apache.ivy.ant" classpathref="ivy.task.path"/>
-    
+
 
     <target name="refresh.lib" description="Retreive dependencies with Ivy.">
         <delete dir="${lib.dir}"/>
@@ -37,6 +44,35 @@
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
+    </target>
+
+    <target name="test" depends="compile" description="Run the tests.">
+        <mkdir dir="${test.classes.dir}"/>
+        <mkdir dir="${report.dir}"/>
+        <mkdir dir="${report.dir}/html"/>
+        <mkdir dir="${report.dir}/xml"/>
+
+        <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" classpathref="run.path.id" debug="true" target="5"/>
+        <copy todir="${test.classes.dir}" overwrite="true">
+            <fileset dir="${test.src.dir}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    
+        <junit printsummary="yes" failureProperty="test.failed" errorProperty="test.failed" outputtoformatters="false">
+            <classpath refid="test.path.id"/>
+            <formatter type="xml"/>
+            <batchtest todir="${report.dir}/xml">
+                <fileset dir="${test.src.dir}" includes="**/*Test.java"/>
+            </batchtest>
+        </junit>
+
+        <junitreport todir="${report.dir}">
+            <fileset dir="${report.dir}/xml" includes="*.xml"/>
+            <report format="frames" todir="${report.dir}/html"/>
+        </junitreport>
+
+        <fail if="test.failed" message="One or more tests failed.  See the reports (${report.dir}) for details."/>
     </target>
 
     <target name="package" depends="compile" description="Package up the plugin jar.">
